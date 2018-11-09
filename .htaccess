@@ -1,0 +1,40 @@
+Options +SymLinksIfOwnerMatch
+
+IndexIgnore */*
+
+RewriteEngine on
+RewriteBase /
+
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+#RewriteCond %{HTTP_HOST} ^vsudy\.com$ [NC]
+#RewriteRule ^(.*)$ http://www.autoprokat.net.ua/$1 [R=301,L]
+
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*(default|index|main)\.(html|php|htm)\ HTTP/ [NC]
+#RewriteRule ^(([^/]+/)*)(default|main|index)\.(html|php|htm)$ http://www.autoprokat.net.ua/$1 [L,R=301]
+
+
+
+RewriteCond %{REQUEST_URI} !^/(web)
+RewriteRule ^assets/(.*)$ /public/assets/$1 [L]
+RewriteRule ^css/(.*)$ public/css/$1 [L]
+RewriteRule ^js/(.*)$ public/js/$1 [L]
+RewriteRule ^images/(.*)$ public/images/$1 [L]
+RewriteRule ^libs/(.*)$ public/libs/$1 [L]
+RewriteRule ^fonts/(.*)$ public/fonts/$1 [L]
+RewriteRule ^upload/(.*)$ public/upload/$1 [L]
+RewriteRule (.*) /public/$1
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /public/index.php
+
+
+
+#RewriteCond %{THE_REQUEST} articles/(.*).html
+#RewriteRule ^(.*)$ articles.html [L]
+
+
