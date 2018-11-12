@@ -4,9 +4,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 require('./bootstrap');
 
+import axios from 'axios';
 window.Vue = require('vue');
 
 /**
@@ -14,8 +16,9 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.use(ElementUI);
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('operations', require('./components/Operations.vue'));
 
 const app = new Vue({
     el: '#app'

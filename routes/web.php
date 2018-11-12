@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Items;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,4 +22,7 @@ Route::get('/accounts', function () {
 });
 Route::get('/items', function () {
     return view('items');
+});
+Route::get('/get-items', function () {
+    return json_encode(Items::select(['name', 'id'])->get());
 });
