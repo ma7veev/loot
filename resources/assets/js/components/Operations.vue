@@ -1,84 +1,131 @@
 <template>
    <div class="container">
       <div class="row">
-         <div class="col-md-8 col-md-offset-2">
+         <div class="col-md-12">
             <div class="panel panel-default">
-               <div class="panel-heading">Example Component</div>
                <div class="panel-body">
-                  <el-table :data="oldData" style="width: 100%">
-                     <el-table-column prop="items_id" label="Статья" width="180">
+                  <h2 class="mt-3">Last operations</h2>
+                  <el-table :data="operations_data" style="width: 100%" v-if="operations_exists">
+                     <el-table-column prop="items_id" label="Item" width="180"></el-table-column>
+                     <el-table-column prop="amount" label="Amount" width="120"></el-table-column>
+                     <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
+                     <el-table-column prop="created_at" label="Created"></el-table-column>
+                  </el-table>
+                  <div class="" v-if="!operations_exists">There is still no data there</div>
+                  <h2 class="mt-3">New operation</h2>
+                  <el-table :data="newData" style="width: 100%">
+                     <el-table-column prop="items_id" label="Item" width="180">
                         <template slot-scope="scope">
-                           <el-select v-model="items_selected" placeholder="Select">
-                              <el-option
-                                    v-for="item in items_data"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                              </el-option>
+                           <el-select v-model="items_model" placeholder="Select">
+                              <el-option v-for="item in items_data" :key="item.id" :label="item.name" :value="item.id"></el-option>
                            </el-select>
                         </template>
                      </el-table-column>
-                     <el-table-column prop="amount" label="Сумма"></el-table-column>
-                     <el-table-column prop="comment" label="Комментарий" width="180"></el-table-column>
+                     <el-table-column prop="amount" label="Amount" width="120">
+                        <template slot-scope="scope">
+                           <el-input placeholder="Enter amount" v-model="amount_model" type="number" value="0"></el-input>
+                        </template>
+                     </el-table-column>
+                     <el-table-column prop="comment" label="Comment" width="280">
+                        <template slot-scope="scope">
+                           <el-input type="textarea" :rows="2" placeholder="Description" v-model="comment_model"></el-input>
+                        </template>
+                     </el-table-column>
+                     <el-table-column label="Action" width="100">
+                        <template slot-scope="scope">
+                           <el-button type="success" @click="saveOperations" class="">Save</el-button>
+                        </template>
+                     </el-table-column>
                   </el-table>
                </div>
             </div>
          </div>
       </div>
-      <el-button type="primary" @click="test">Primary</el-button>
    </div>
 </template>
 <script>
     export default {
-        props: [
-            'items_prop'
-        ],
+        props: [],
         mounted() {
-            console.log('Component mounted.', this.items_prop)
-   this.items_data = JSON.parse(this.items_prop);
-           /*   axios.get('/get-items')
-            .then(function (response) {
-            console.log(response.data);
-            })
-            .catch(function (error) {
-            console.log(error);
-            });*/
+            this.getOperations();
+            this.getItems();
 
         },
         data() {
             return {
-                items:[],
-                newData: {},
+                operations_data: [
+                    {
+                        items_id: '',
+                        amount: '',
+                        comment: '',
+                        created_at: ''
+                    }
+                ],
+                operations_exists: false,
                 defaultData: {},
-                oldData: [{
+                newData: [{
                     items_id: '',
                     comment: '',
                     amount: ''
                 }],
                 items_data: [{
-                    id: 'Option1',
-                    name: 'Option1'
-                }, {
-                    id: 'Option2',
-                    name: 'Option2'
-                }, {
-                    id: 'Option3',
-                    name: 'Option3'
-                }, {
-                    id: 'Option4',
-                    name: 'Option4'
-                }, {
-                    id: 'Option5',
-                    name: 'Option5'
-                },],
-                items_selected: '',
+                    id: '1',
+                    name: 'name'
+                }],
+                items_model: '',
+                amount_model: '',
+                comment_model: ''
 
             }
         },
-        methods:{
-            test(){
-                console.log(this.items_data);
-            }
+        methods: {
+            getItems(){
+                axios.get('/get-items', {
+                    params: {}
+                })
+                    .then((response) => {
+                        console.log(response.data.length);
+                        this.items_data = response.data;
+
+                    })
+                    .catch((error) => {
+                        this.$message.error('Cannot get items');
+                    });
+            },
+            getOperations(){
+                axios.get('/get-last-operations', {
+                    params: {}
+                })
+                    .then((response) => {
+                        //  console.log(response.data);
+                        if (response.data.length > 0) {
+                            this.operations_exists = true;
+                            this.operations_data = response.data;
+
+                        }
+
+                    })
+                    .catch((error) => {
+                        this.$message.error('Cannot get operations');
+                    });
+            },
+            saveOperations(){
+                axios.get('/save-operation', {
+                    params: {
+                        items_id: this.items_model,
+                        amount: this.amount_model,
+                        comment: this.comment_model
+                    }
+                })
+                    .then((response) => {
+                        this.$message.success('Your data is saved');
+                        this.getOperations();
+                        this.items_model = this.amount_model = this.comment_model = '';
+                    })
+                    .catch((error) => {
+                        this.$message.error('Oops, this is a error message.');
+                    });
+            },
         }
     }
 </script>
