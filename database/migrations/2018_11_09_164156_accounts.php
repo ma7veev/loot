@@ -19,7 +19,6 @@ class Accounts extends Migration
           Schema ::create('accounts', function(Blueprint $table)
           {
              $table -> increments('id');
-             $table -> boolean('type');
              $table -> string('name');
             // $table -> string('alias');
              $table -> longText('comment')->nullable();

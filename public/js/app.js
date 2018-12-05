@@ -15940,6 +15940,7 @@ window.Vue = __webpack_require__(2);
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a);
 Vue.component('example', __webpack_require__(192));
 Vue.component('operations', __webpack_require__(195));
+Vue.component('accounts', __webpack_require__(200));
 
 var app = new Vue({
   el: '#app'
@@ -91567,6 +91568,306 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 199 */,
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(75)
+/* script */
+var __vue_script__ = __webpack_require__(201)
+/* template */
+var __vue_template__ = __webpack_require__(202)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Accounts.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2b9dd21d", Component.options)
+  } else {
+    hotAPI.reload("data-v-2b9dd21d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: [],
+    mounted: function mounted() {
+        this.getAccounts();
+    },
+    data: function data() {
+        return {
+            accounts_data: [{
+                comment: '',
+                name: ''
+            }],
+            accounts_exists: false,
+            defaultData: {},
+            newData: [{
+                comment: '',
+                name: ''
+            }],
+            name_model: '',
+            comment_model: ''
+
+        };
+    },
+
+    methods: {
+        getAccounts: function getAccounts() {
+            var _this = this;
+
+            axios.get('/get-all-accounts', {
+                params: {}
+            }).then(function (response) {
+                //  console.log(response.data);
+                if (response.data.length > 0) {
+                    _this.accounts_exists = true;
+                    _this.accounts_data = response.data;
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot get accounts');
+            });
+        },
+        saveAccounts: function saveAccounts() {
+            var _this2 = this;
+
+            axios.get('/save-account', {
+                params: {
+                    name: this.name_model,
+                    comment: this.comment_model
+                }
+            }).then(function (response) {
+                _this2.$message.success('Your data is saved');
+                _this2.getAccounts();
+                //   this.items_model = this.amount_model = this.comment_model = '';
+            }).catch(function (error) {
+                _this2.$message.error('Oops, this is a error message.');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-body" },
+            [
+              _c("h2", { staticClass: "mt-3" }, [_vm._v("All accounts")]),
+              _vm._v(" "),
+              _vm.accounts_exists
+                ? _c(
+                    "el-table",
+                    {
+                      staticStyle: { width: "100%" },
+                      attrs: { data: _vm.accounts_data }
+                    },
+                    [
+                      _c("el-table-column", {
+                        attrs: { prop: "name", label: "Name", width: "180" }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: {
+                          prop: "comment",
+                          label: "Comment",
+                          width: "280"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.accounts_exists
+                ? _c("div", {}, [_vm._v("There is still no data there")])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h2", { staticClass: "mt-3" }, [_vm._v("New account")]),
+              _vm._v(" "),
+              _c(
+                "el-table",
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { data: _vm.newData }
+                },
+                [
+                  _c("el-table-column", {
+                    attrs: { prop: "name", label: "Name", width: "120" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c("el-input", {
+                              attrs: {
+                                placeholder: "Enter new name",
+                                type: "string"
+                              },
+                              model: {
+                                value: _vm.name_model,
+                                callback: function($$v) {
+                                  _vm.name_model = $$v
+                                },
+                                expression: "name_model"
+                              }
+                            })
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: { prop: "comment", label: "Comment", width: "280" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c("el-input", {
+                              attrs: {
+                                type: "textarea",
+                                rows: 2,
+                                placeholder: "Description"
+                              },
+                              model: {
+                                value: _vm.comment_model,
+                                callback: function($$v) {
+                                  _vm.comment_model = $$v
+                                },
+                                expression: "comment_model"
+                              }
+                            })
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: { label: "Action", width: "100" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c(
+                              "el-button",
+                              {
+                                attrs: { type: "success" },
+                                on: { click: _vm.saveAccounts }
+                              },
+                              [_vm._v("Save")]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2b9dd21d", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

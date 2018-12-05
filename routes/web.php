@@ -1,6 +1,7 @@
 <?php
    use App\Models\Items;
    use App\Models\Operations;
+   use App\Models\Accounts;
    use Illuminate\Http\Request;
    
    /*
@@ -39,6 +40,10 @@
    {
       Operations::firstOrCreate($request -> toArray());
    });
+   Route ::get('/save-account', function(Request $request)
+   {
+      Accounts::firstOrCreate($request -> toArray());
+   });
    Route ::get('/get-last-operations', function(Request $request)
    {
       return json_encode(Operations ::select([
@@ -46,4 +51,10 @@
             'comment',
             'amount',
             'created_at']) -> get());
+   });
+   Route ::get('/get-all-accounts', function(Request $request)
+   {
+      return json_encode(Accounts ::select([
+            'name',
+            'comment',]) -> get());
    });

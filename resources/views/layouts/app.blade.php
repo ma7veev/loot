@@ -29,20 +29,20 @@
                <li class="nav-item">
                   <a class="nav-link active" href="#">
                      <span data-feather="home"></span>
-                     Dashboard
+                     Operations
                      <span class="sr-only">(current)</span>
                   </a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="#">
                      <span data-feather="file"></span>
-                     Orders
+                     Accounts
                   </a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="#">
                      <span data-feather="shopping-cart"></span>
-                     Products
+                     Items
                   </a>
                </li>
                <li class="nav-item">

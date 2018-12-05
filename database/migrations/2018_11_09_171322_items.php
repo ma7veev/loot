@@ -21,6 +21,7 @@
                $table -> increments('id');
                $table -> string('name');
                $table -> integer('accounts_id');
+               $table -> boolean('type');
                $table -> longText('comment')->nullable();
                $table -> timestamps();
             });
