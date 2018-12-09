@@ -30,6 +30,12 @@
    {
       return view('items');
    });
+   Route ::get('/get-accounts', function()
+   {
+      return json_encode(Accounts ::select([
+            'name',
+            'id']) -> get());
+   });
    Route ::get('/get-items', function()
    {
       return json_encode(Items ::select([
@@ -44,6 +50,10 @@
    {
       Accounts::firstOrCreate($request -> toArray());
    });
+   Route ::get('/save-item', function(Request $request)
+   {
+      Items::firstOrCreate($request -> toArray());
+   });
    Route ::get('/get-last-operations', function(Request $request)
    {
       return json_encode(Operations ::select([
@@ -56,5 +66,13 @@
    {
       return json_encode(Accounts ::select([
             'name',
+            'comment',]) -> get());
+   });
+   Route ::get('/get-all-items', function(Request $request)
+   {
+      return json_encode(Items ::select([
+            'name',
+            'accounts_id',
+            'type',
             'comment',]) -> get());
    });
