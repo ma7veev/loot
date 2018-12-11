@@ -15942,6 +15942,7 @@ Vue.component('example', __webpack_require__(192));
 Vue.component('operations', __webpack_require__(195));
 Vue.component('accounts', __webpack_require__(198));
 Vue.component('items', __webpack_require__(201));
+Vue.component('groups', __webpack_require__(206));
 /**/
 var app = new Vue({
   el: '#app'
@@ -91293,12 +91294,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
     mounted: function mounted() {
         this.getOperations();
         this.getItems();
+        this.getAccounts();
     },
     data: function data() {
         return {
@@ -91315,12 +91325,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 comment: '',
                 amount: ''
             }],
+            accounts_data: [{
+                id: '1',
+                name: 'name'
+            }],
             items_data: [{
                 id: '1',
                 name: 'name'
             }],
             items_model: '',
             amount_model: '',
+            accounts_model: '',
             comment_model: ''
 
         };
@@ -91330,7 +91345,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getItems: function getItems() {
             var _this = this;
 
-            axios.get('/get-items', {
+            axios.get('/get-items-list', {
                 params: {}
             }).then(function (response) {
                 console.log(response.data.length);
@@ -91339,23 +91354,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.$message.error('Cannot get items');
             });
         },
-        getOperations: function getOperations() {
+        getAccounts: function getAccounts() {
             var _this2 = this;
 
-            axios.get('/get-last-operations', {
+            axios.get('/get-accounts-list', {
+                params: {}
+            }).then(function (response) {
+                console.log(response.data.length);
+                _this2.accounts_data = response.data;
+            }).catch(function (error) {
+                _this2.$message.error('Cannot get accounts');
+            });
+        },
+        getOperations: function getOperations() {
+            var _this3 = this;
+
+            axios.get('/get-operations-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
                 if (response.data.length > 0) {
-                    _this2.operations_exists = true;
-                    _this2.operations_data = response.data;
+                    _this3.operations_exists = true;
+                    _this3.operations_data = response.data;
                 }
             }).catch(function (error) {
-                _this2.$message.error('Cannot get operations');
+                _this3.$message.error('Cannot get operations');
             });
         },
         saveOperations: function saveOperations() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/save-operation', {
                 params: {
@@ -91364,11 +91391,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     comment: this.comment_model
                 }
             }).then(function (response) {
-                _this3.$message.success('Your data is saved');
-                _this3.getOperations();
-                _this3.items_model = _this3.amount_model = _this3.comment_model = '';
+                _this4.$message.success('Your data is saved');
+                _this4.getOperations();
+                _this4.items_model = _this4.amount_model = _this4.comment_model = '';
             }).catch(function (error) {
-                _this3.$message.error('Oops, this is a error message.');
+                _this4.$message.error('Oops, this is a error message.');
             });
         }
     }
@@ -91402,6 +91429,14 @@ var render = function() {
                     [
                       _c("el-table-column", {
                         attrs: { prop: "items_id", label: "Item", width: "180" }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: {
+                          prop: "accounts_id",
+                          label: "Account",
+                          width: "180"
+                        }
                       }),
                       _vm._v(" "),
                       _c("el-table-column", {
@@ -91460,6 +91495,45 @@ var render = function() {
                                 return _c("el-option", {
                                   key: item.id,
                                   attrs: { label: item.name, value: item.id }
+                                })
+                              })
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      prop: "accounts_id",
+                      label: "Account",
+                      width: "180"
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c(
+                              "el-select",
+                              {
+                                attrs: { placeholder: "Select" },
+                                model: {
+                                  value: _vm.accounts_model,
+                                  callback: function($$v) {
+                                    _vm.accounts_model = $$v
+                                  },
+                                  expression: "accounts_model"
+                                }
+                              },
+                              _vm._l(_vm.accounts_data, function(account) {
+                                return _c("el-option", {
+                                  key: account.id,
+                                  attrs: {
+                                    label: account.name,
+                                    value: account.id
+                                  }
                                 })
                               })
                             )
@@ -91683,7 +91757,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getAccounts: function getAccounts() {
             var _this = this;
 
-            axios.get('/get-all-accounts', {
+            axios.get('/get-accounts-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
@@ -91974,13 +92048,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: [],
     mounted: function mounted() {
         this.getItems();
-        this.getAccounts();
+        this.getGroups();
     },
     data: function data() {
         return {
             items_data: [{
                 name: '',
-                accounts_id: '',
+                groups_id: '',
                 type: '',
                 comment: ''
             }],
@@ -91988,40 +92062,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             defaultData: {},
             newData: [{
                 name: '',
-                accounts_id: '',
+                groups_id: '',
                 type: '',
                 comment: ''
             }],
-            accounts_data: [{
+            groups_data: [{
                 id: '1',
                 name: 'name'
             }],
             items_model: '',
             name_model: '',
             comment_model: '',
-            accounts_model: '',
+            groups_model: '',
             type_model: ''
 
         };
     },
 
     methods: {
-        getAccounts: function getAccounts() {
+        getGroups: function getGroups() {
             var _this = this;
 
-            axios.get('/get-accounts', {
+            axios.get('/get-groups-list', {
                 params: {}
             }).then(function (response) {
                 console.log(response.data.length);
-                _this.accounts_data = response.data;
+                _this.groups_data = response.data;
             }).catch(function (error) {
-                _this.$message.error('Cannot get accounts');
+                _this.$message.error('Cannot get groups');
             });
         },
         getItems: function getItems() {
             var _this2 = this;
 
-            axios.get('/get-all-items', {
+            axios.get('/get-items-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
@@ -92039,7 +92113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/save-item', {
                 params: {
                     type: this.type_model,
-                    accounts_id: this.accounts_model,
+                    groups_id: this.groups_model,
                     name: this.name_model,
                     comment: this.comment_model
                 }
@@ -92086,8 +92160,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("el-table-column", {
                         attrs: {
-                          prop: "accounts_id",
-                          label: "Account",
+                          prop: "groups_id",
+                          label: "Group",
                           width: "180"
                         }
                       }),
@@ -92148,11 +92222,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("el-table-column", {
-                    attrs: {
-                      prop: "accounts_id",
-                      label: "Account",
-                      width: "180"
-                    },
+                    attrs: { prop: "groups_id", label: "Group", width: "180" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -92163,20 +92233,17 @@ var render = function() {
                               {
                                 attrs: { placeholder: "Select" },
                                 model: {
-                                  value: _vm.accounts_model,
+                                  value: _vm.groups_model,
                                   callback: function($$v) {
-                                    _vm.accounts_model = $$v
+                                    _vm.groups_model = $$v
                                   },
-                                  expression: "accounts_model"
+                                  expression: "groups_model"
                                 }
                               },
-                              _vm._l(_vm.accounts_data, function(account) {
+                              _vm._l(_vm.groups_data, function(group) {
                                 return _c("el-option", {
-                                  key: account.id,
-                                  attrs: {
-                                    label: account.name,
-                                    value: account.id
-                                  }
+                                  key: group.id,
+                                  attrs: { label: group.name, value: group.id }
                                 })
                               })
                             )
@@ -92210,7 +92277,7 @@ var render = function() {
                                   "el-option",
                                   {
                                     key: 1,
-                                    attrs: { label: _vm.income, value: 1 }
+                                    attrs: { label: "income", value: 1 }
                                   },
                                   [_vm._v("income")]
                                 ),
@@ -92219,7 +92286,7 @@ var render = function() {
                                   "el-option",
                                   {
                                     key: 0,
-                                    attrs: { label: _vm.outcome, value: 0 }
+                                    attrs: { label: "outcome", value: 0 }
                                   },
                                   [_vm._v("outcome")]
                                 )
@@ -92305,6 +92372,306 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 205 */,
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(25)
+/* script */
+var __vue_script__ = __webpack_require__(207)
+/* template */
+var __vue_template__ = __webpack_require__(208)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Groups.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-169f366a", Component.options)
+  } else {
+    hotAPI.reload("data-v-169f366a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 207 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: [],
+    mounted: function mounted() {
+        this.getGroups();
+    },
+    data: function data() {
+        return {
+            groups_data: [{
+                comment: '',
+                name: ''
+            }],
+            groups_exists: false,
+            defaultData: {},
+            newData: [{
+                comment: '',
+                name: ''
+            }],
+            name_model: '',
+            comment_model: ''
+
+        };
+    },
+
+    methods: {
+        getGroups: function getGroups() {
+            var _this = this;
+
+            axios.get('/get-groups-data', {
+                params: {}
+            }).then(function (response) {
+                //  console.log(response.data);
+                if (response.data.length > 0) {
+                    _this.groups_exists = true;
+                    _this.groups_data = response.data;
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot get groups');
+            });
+        },
+        saveGroups: function saveGroups() {
+            var _this2 = this;
+
+            axios.get('/save-group', {
+                params: {
+                    name: this.name_model,
+                    comment: this.comment_model
+                }
+            }).then(function (response) {
+                _this2.$message.success('Your data is saved');
+                _this2.getGroups();
+                //   this.items_model = this.amount_model = this.comment_model = '';
+            }).catch(function (error) {
+                _this2.$message.error('Oops, this is a error message.');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-body" },
+            [
+              _c("h2", { staticClass: "mt-3" }, [_vm._v("All groups")]),
+              _vm._v(" "),
+              _vm.groups_exists
+                ? _c(
+                    "el-table",
+                    {
+                      staticStyle: { width: "100%" },
+                      attrs: { data: _vm.groups_data }
+                    },
+                    [
+                      _c("el-table-column", {
+                        attrs: { prop: "name", label: "Name", width: "180" }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: {
+                          prop: "comment",
+                          label: "Comment",
+                          width: "280"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.groups_exists
+                ? _c("div", {}, [_vm._v("There is still no data there")])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h2", { staticClass: "mt-3" }, [_vm._v("New group")]),
+              _vm._v(" "),
+              _c(
+                "el-table",
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { data: _vm.newData }
+                },
+                [
+                  _c("el-table-column", {
+                    attrs: { prop: "name", label: "Name", width: "120" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c("el-input", {
+                              attrs: {
+                                placeholder: "Enter new name",
+                                type: "string"
+                              },
+                              model: {
+                                value: _vm.name_model,
+                                callback: function($$v) {
+                                  _vm.name_model = $$v
+                                },
+                                expression: "name_model"
+                              }
+                            })
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: { prop: "comment", label: "Comment", width: "280" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c("el-input", {
+                              attrs: {
+                                type: "textarea",
+                                rows: 2,
+                                placeholder: "Description"
+                              },
+                              model: {
+                                value: _vm.comment_model,
+                                callback: function($$v) {
+                                  _vm.comment_model = $$v
+                                },
+                                expression: "comment_model"
+                              }
+                            })
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: { label: "Action", width: "100" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c(
+                              "el-button",
+                              {
+                                attrs: { type: "success" },
+                                on: { click: _vm.saveGroups }
+                              },
+                              [_vm._v("Save")]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-169f366a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -7,6 +7,7 @@
                   <h2 class="mt-3">Last operations</h2>
                   <el-table :data="operations_data" style="width: 100%" v-if="operations_exists">
                      <el-table-column prop="items_id" label="Item" width="180"></el-table-column>
+                     <el-table-column prop="accounts_id" label="Account" width="180"></el-table-column>
                      <el-table-column prop="amount" label="Amount" width="120"></el-table-column>
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                      <el-table-column prop="created_at" label="Created"></el-table-column>
@@ -18,6 +19,13 @@
                         <template slot-scope="scope">
                            <el-select v-model="items_model" placeholder="Select">
                               <el-option v-for="item in items_data" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                           </el-select>
+                        </template>
+                     </el-table-column>
+                     <el-table-column prop="accounts_id" label="Account" width="180">
+                        <template slot-scope="scope">
+                           <el-select v-model="accounts_model" placeholder="Select">
+                              <el-option v-for="account in accounts_data" :key="account.id" :label="account.name" :value="account.id"></el-option>
                            </el-select>
                         </template>
                      </el-table-column>
@@ -49,6 +57,7 @@
         mounted() {
             this.getOperations();
             this.getItems();
+            this.getAccounts();
 
         },
         data() {
@@ -68,19 +77,24 @@
                     comment: '',
                     amount: ''
                 }],
+                accounts_data: [{
+                    id: '1',
+                    name: 'name'
+                }],
                 items_data: [{
                     id: '1',
                     name: 'name'
                 }],
                 items_model: '',
                 amount_model: '',
+                accounts_model: '',
                 comment_model: ''
 
             }
         },
         methods: {
             getItems(){
-                axios.get('/get-items', {
+                axios.get('/get-items-list', {
                     params: {}
                 })
                     .then((response) => {
@@ -92,8 +106,21 @@
                         this.$message.error('Cannot get items');
                     });
             },
+            getAccounts(){
+                axios.get('/get-accounts-list', {
+                    params: {}
+                })
+                    .then((response) => {
+                        console.log(response.data.length);
+                        this.accounts_data = response.data;
+
+                    })
+                    .catch((error) => {
+                        this.$message.error('Cannot get accounts');
+                    });
+            },
             getOperations(){
-                axios.get('/get-last-operations', {
+                axios.get('/get-operations-data', {
                     params: {}
                 })
                     .then((response) => {

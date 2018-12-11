@@ -3,7 +3,7 @@
    use Illuminate\Database\Schema\Blueprint;
    use Illuminate\Database\Migrations\Migration;
    
-   class Operations extends Migration
+   class Groups extends Migration
    {
       /**
        * Run the migrations.
@@ -13,17 +13,15 @@
       public
       function up()
       {
-         if (!Schema ::hasTable('operations'))
+         //
+         if ( !Schema ::hasTable('groups'))
          {
             //
-            Schema ::create('operations', function(Blueprint $table)
+            Schema ::create('groups', function(Blueprint $table)
             {
                $table -> increments('id');
-            //   $table -> string('type');
-               $table -> string('items_id');
-               $table -> integer('accounts_id');
-               $table -> longText('comment')->nullable();
-               $table -> integer('amount')->default(0);
+               $table -> string('name');
+               $table -> longText('comment') -> nullable();
                $table -> timestamps();
             });
          }
@@ -37,6 +35,7 @@
       public
       function down()
       {
-         Schema::dropIfExists('operations');
+         //
+         Schema ::dropIfExists('groups');
       }
    }

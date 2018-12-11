@@ -27,31 +27,31 @@
          <div class="sidebar-sticky">
             <ul class="nav flex-column">
                <li class="nav-item">
-                  <a class="nav-link active" href="#">
+                  <a class="nav-link active" href="/operations">
                      <span data-feather="home"></span>
                      Operations
                      <span class="sr-only">(current)</span>
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                     <span data-feather="file"></span>
-                     Accounts
-                  </a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/items">
                      <span data-feather="shopping-cart"></span>
                      Items
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/groups">
                      <span data-feather="users"></span>
-                     Customers
+                     Items` groups
                   </a>
                </li>
                <li class="nav-item">
+                  <a class="nav-link" href="/accounts">
+                     <span data-feather="file"></span>
+                     Accounts
+                  </a>
+               </li>
+             {{--  <li class="nav-item">
                   <a class="nav-link" href="#">
                      <span data-feather="bar-chart-2"></span>
                      Reports
@@ -62,7 +62,7 @@
                      <span data-feather="layers"></span>
                      Integrations
                   </a>
-               </li>
+               </li>--}}
             </ul>
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                <span>Saved reports</span>

@@ -4,15 +4,15 @@
          <div class="col-md-12">
             <div class="panel panel-default">
                <div class="panel-body">
-                  <h2 class="mt-3">All accounts</h2>
-                  <el-table :data="accounts_data" style="width: 100%" v-if="accounts_exists">
+                  <h2 class="mt-3">All groups</h2>
+                  <el-table :data="groups_data" style="width: 100%" v-if="groups_exists">
                      <el-table-column prop="name" label="Name" width="180"></el-table-column>
                      
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
-                     
+                  
                   </el-table>
-                  <div class="" v-if="!accounts_exists">There is still no data there</div>
-                  <h2 class="mt-3">New account</h2>
+                  <div class="" v-if="!groups_exists">There is still no data there</div>
+                  <h2 class="mt-3">New group</h2>
                   <el-table :data="newData" style="width: 100%">
                      <el-table-column prop="name" label="Name" width="120">
                         <template slot-scope="scope">
@@ -26,7 +26,7 @@
                      </el-table-column>
                      <el-table-column label="Action" width="100">
                         <template slot-scope="scope">
-                           <el-button type="success" @click="saveAccounts" class="">Save</el-button>
+                           <el-button type="success" @click="saveGroups" class="">Save</el-button>
                         </template>
                      </el-table-column>
                   </el-table>
@@ -40,18 +40,18 @@
     export default {
         props: [],
         mounted() {
-            this.getAccounts();
+            this.getGroups();
 
         },
         data() {
             return {
-                accounts_data: [
+                groups_data: [
                     {
                         comment: '',
                         name: ''
                     }
                 ],
-                accounts_exists: false,
+                groups_exists: false,
                 defaultData: {},
                 newData: [{
                     comment: '',
@@ -63,25 +63,25 @@
             }
         },
         methods: {
-            getAccounts(){
-                axios.get('/get-accounts-data', {
+            getGroups(){
+                axios.get('/get-groups-data', {
                     params: {}
                 })
                     .then((response) => {
                         //  console.log(response.data);
                         if (response.data.length > 0) {
-                            this.accounts_exists = true;
-                            this.accounts_data = response.data;
+                            this.groups_exists = true;
+                            this.groups_data = response.data;
 
                         }
 
                     })
                     .catch((error) => {
-                        this.$message.error('Cannot get accounts');
+                        this.$message.error('Cannot get groups');
                     });
             },
-            saveAccounts(){
-                axios.get('/save-account', {
+            saveGroups(){
+                axios.get('/save-group', {
                     params: {
                         name: this.name_model,
                         comment: this.comment_model
@@ -89,8 +89,8 @@
                 })
                     .then((response) => {
                         this.$message.success('Your data is saved');
-                        this.getAccounts();
-                     //   this.items_model = this.amount_model = this.comment_model = '';
+                        this.getGroups();
+                        //   this.items_model = this.amount_model = this.comment_model = '';
                     })
                     .catch((error) => {
                         this.$message.error('Oops, this is a error message.');

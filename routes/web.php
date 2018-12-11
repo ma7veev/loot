@@ -1,6 +1,7 @@
 <?php
    use App\Models\Items;
    use App\Models\Operations;
+   use App\Models\Groups;
    use App\Models\Accounts;
    use Illuminate\Http\Request;
    
@@ -14,6 +15,9 @@
    | contains the "web" middleware group. Now create something great!
    |
    */
+   
+   
+   /* PAGES RENDERING*/
    Route ::get('/', function()
    {
       return view('welcome');
@@ -30,18 +34,61 @@
    {
       return view('items');
    });
-   Route ::get('/get-accounts', function()
+   Route ::get('/groups', function()
+   {
+      return view('groups');
+   });
+   
+   
+   /*GET DATA METHODS*/
+   Route ::get('/get-accounts-list', function()
    {
       return json_encode(Accounts ::select([
             'name',
             'id']) -> get());
    });
-   Route ::get('/get-items', function()
+   Route ::get('/get-groups-list', function()
+   {
+      return json_encode(Groups ::select([
+            'name',
+            'id']) -> get());
+   });
+   Route ::get('/get-items-list', function()
    {
       return json_encode(Items ::select([
             'name',
             'id']) -> get());
    });
+   
+   Route ::get('/get-operations-data', function(Request $request)
+   {
+      return json_encode(Operations ::select([
+            'items_id',
+            'comment',
+            'amount',
+            'created_at']) -> get());
+   });
+   Route ::get('/get-accounts-data', function(Request $request)
+   {
+      return json_encode(Accounts ::select([
+            'name',
+            'comment',]) -> get());
+   });
+   Route ::get('/get-items-data', function(Request $request)
+   {
+      return json_encode(Items ::select([
+            'name',
+            'accounts_id',
+            'type',
+            'comment',]) -> get());
+   });
+   Route ::get('/get-groups-data', function(Request $request)
+   {
+      return json_encode(Groups ::select([
+            'name',
+            'comment',]) -> get());
+   });
+   /*SAVE DATA METHODS*/
    Route ::get('/save-operation', function(Request $request)
    {
       Operations::firstOrCreate($request -> toArray());
@@ -54,25 +101,7 @@
    {
       Items::firstOrCreate($request -> toArray());
    });
-   Route ::get('/get-last-operations', function(Request $request)
+   Route ::get('/save-group', function(Request $request)
    {
-      return json_encode(Operations ::select([
-            'items_id',
-            'comment',
-            'amount',
-            'created_at']) -> get());
-   });
-   Route ::get('/get-all-accounts', function(Request $request)
-   {
-      return json_encode(Accounts ::select([
-            'name',
-            'comment',]) -> get());
-   });
-   Route ::get('/get-all-items', function(Request $request)
-   {
-      return json_encode(Items ::select([
-            'name',
-            'accounts_id',
-            'type',
-            'comment',]) -> get());
+      Groups::firstOrCreate($request -> toArray());
    });

@@ -21,6 +21,7 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('operations', require('./components/Operations.vue'));
 Vue.component('accounts', require('./components/Accounts.vue'));
 Vue.component('items', require('./components/Items.vue'));
+Vue.component('groups', require('./components/Groups.vue'));
 /**/
 const app = new Vue({
     el: '#app'

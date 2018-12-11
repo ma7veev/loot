@@ -7,7 +7,7 @@
                   <h2 class="mt-3">All items</h2>
                   <el-table :data="items_data" style="width: 100%" v-if="items_exists">
                      <el-table-column prop="name" label="Name" width="120"></el-table-column>
-                     <el-table-column prop="accounts_id" label="Account" width="180"></el-table-column>
+                     <el-table-column prop="groups_id" label="Group" width="180"></el-table-column>
                      <el-table-column prop="type" label="Type" width="120"></el-table-column>
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                   </el-table>
@@ -19,18 +19,18 @@
                            <el-input placeholder="Enter name" v-model="name_model" type="string"></el-input>
                         </template>
                      </el-table-column>
-                     <el-table-column prop="accounts_id" label="Account" width="180">
+                     <el-table-column prop="groups_id" label="Group" width="180">
                         <template slot-scope="scope">
-                           <el-select v-model="accounts_model" placeholder="Select">
-                              <el-option v-for="account in accounts_data" :key="account.id" :label="account.name" :value="account.id"></el-option>
+                           <el-select v-model="groups_model" placeholder="Select">
+                              <el-option v-for="group in groups_data" :key="group.id" :label="group.name" :value="group.id"></el-option>
                            </el-select>
                         </template>
                      </el-table-column>
                      <el-table-column prop="type" label="Type" width="120">
                         <template slot-scope="scope">
                            <el-select v-model="type_model" placeholder="Select">
-                              <el-option :key="1" :label="income" :value="1">income</el-option>
-                              <el-option :key="0" :label="outcome" :value="0">outcome</el-option>
+                              <el-option :key="1" :label="'income'" :value="1">income</el-option>
+                              <el-option :key="0" :label="'outcome'" :value="0">outcome</el-option>
                            </el-select>
                         </template>
                      </el-table-column>
@@ -56,7 +56,7 @@
         props: [],
         mounted() {
             this.getItems();
-            this.getAccounts();
+            this.getGroups();
 
         },
         data() {
@@ -64,7 +64,7 @@
                 items_data: [
                     {
                         name: '',
-                        accounts_id: '',
+                        groups_id: '',
                         type: '',
                         comment: ''
                     }
@@ -73,38 +73,38 @@
                 defaultData: {},
                 newData: [{
                     name: '',
-                    accounts_id: '',
+                    groups_id: '',
                     type: '',
                     comment: ''
                 }],
-                accounts_data: [{
+                groups_data: [{
                     id: '1',
                     name: 'name'
                 }],
                 items_model: '',
                 name_model: '',
                 comment_model: '',
-                accounts_model: '',
+                groups_model: '',
                 type_model: ''
 
             }
         },
         methods: {
-            getAccounts(){
-                axios.get('/get-accounts', {
+            getGroups(){
+                axios.get('/get-groups-list', {
                     params: {}
                 })
                     .then((response) => {
                         console.log(response.data.length);
-                        this.accounts_data = response.data;
+                        this.groups_data = response.data;
 
                     })
                     .catch((error) => {
-                        this.$message.error('Cannot get accounts');
+                        this.$message.error('Cannot get groups');
                     });
             },
             getItems(){
-                axios.get('/get-all-items', {
+                axios.get('/get-items-data', {
                     params: {}
                 })
                     .then((response) => {
@@ -124,7 +124,7 @@
                 axios.get('/save-item', {
                     params: {
                         type: this.type_model,
-                        accounts_id: this.accounts_model,
+                        groups_id: this.groups_model,
                         name: this.name_model,
                         comment: this.comment_model
                     }
