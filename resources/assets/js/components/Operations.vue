@@ -11,6 +11,13 @@
                      <el-table-column prop="amount" label="Amount" width="120"></el-table-column>
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                      <el-table-column prop="created_at" label="Created"></el-table-column>
+                     <el-table-column label="Action">
+                        <template slot-scope="scope">
+                           <el-button @click.native.prevent="deleteOperation(scope.$index, operations_data)" type="danger" plain>
+                              Remove
+                           </el-button>
+                        </template>
+                     </el-table-column>
                   </el-table>
                   <div class="" v-if="!operations_exists">There is still no data here</div>
                   <h2 class="mt-3">New operation</h2>
@@ -64,6 +71,7 @@
             return {
                 operations_data: [
                     {
+                        id:'',
                         items_id: '',
                         amount: '',
                         comment: '',
@@ -93,6 +101,27 @@
             }
         },
         methods: {
+            deleteOperation(index, rows) {
+                console.log(index, rows[0]);
+                let id = rows[0]['id'];
+                axios.get('/delete-operation', {
+                    params: {id: id}
+                })
+                    .then((response) => {
+
+                        if (response.data) {
+                            console.log(response.data);
+                            this.$message.success('You have succesfully removed an operation');
+                            this.getOperations();
+
+                        }
+
+                    })
+                    .catch((error) => {
+                        this.$message.error('Cannot delete an operation');
+                    });
+
+            },
             getItems(){
                 axios.get('/get-items-list', {
                     params: {}
@@ -129,6 +158,9 @@
                             this.operations_exists = true;
                             this.operations_data = response.data;
 
+                        } else {
+                            this.operations_exists = false;
+                            
                         }
 
                     })
@@ -141,7 +173,8 @@
                     params: {
                         items_id: this.items_model,
                         amount: this.amount_model,
-                        comment: this.comment_model
+                        comment: this.comment_model,
+                        accounts_id:this.accounts_model
                     }
                 })
                     .then((response) => {

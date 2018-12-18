@@ -7,9 +7,14 @@
                   <h2 class="mt-3">All groups</h2>
                   <el-table :data="groups_data" style="width: 100%" v-if="groups_exists">
                      <el-table-column prop="name" label="Name" width="180"></el-table-column>
-                     
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
-                  
+                     <el-table-column label="Action">
+                        <template slot-scope="scope">
+                           <el-button @click.native.prevent="deleteGroup(scope.$index, groups_data)" type="danger" plain>
+                              Remove
+                           </el-button>
+                        </template>
+                     </el-table-column>
                   </el-table>
                   <div class="" v-if="!groups_exists">There is still no data here</div>
                   <h2 class="mt-3">New group</h2>
@@ -47,6 +52,7 @@
             return {
                 groups_data: [
                     {
+                        id: '',
                         comment: '',
                         name: ''
                     }
@@ -63,6 +69,27 @@
             }
         },
         methods: {
+            deleteGroup(index, rows) {
+                console.log(index, rows[0]);
+                let id = rows[0]['id'];
+                axios.get('/delete-group', {
+                    params: {id: id}
+                })
+                    .then((response) => {
+
+                        if (response.data) {
+                            console.log(response.data);
+                            this.$message.success('You have succesfully removed a group');
+                            this.getGroups();
+
+                        }
+
+                    })
+                    .catch((error) => {
+                        this.$message.error('Cannot delete a group');
+                    });
+
+            },
             getGroups(){
                 axios.get('/get-groups-data', {
                     params: {}
@@ -73,6 +100,9 @@
                             this.groups_exists = true;
                             this.groups_data = response.data;
 
+                        } else {
+                            this.groups_exists = false;
+                            
                         }
 
                     })
@@ -90,7 +120,7 @@
                     .then((response) => {
                         this.$message.success('Your data is saved');
                         this.getGroups();
-                           this.amount_model = this.comment_model = '';
+                        this.amount_model = this.comment_model = '';
                     })
                     .catch((error) => {
                         this.$message.error('Oops, this is a error message.');

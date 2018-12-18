@@ -91302,6 +91302,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -91313,6 +91320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             operations_data: [{
+                id: '',
                 items_id: '',
                 amount: '',
                 comment: '',
@@ -91342,60 +91350,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        getItems: function getItems() {
+        deleteOperation: function deleteOperation(index, rows) {
             var _this = this;
+
+            console.log(index, rows[0]);
+            var id = rows[0]['id'];
+            axios.get('/delete-operation', {
+                params: { id: id }
+            }).then(function (response) {
+
+                if (response.data) {
+                    console.log(response.data);
+                    _this.$message.success('You have succesfully removed an operation');
+                    _this.getOperations();
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot delete an operation');
+            });
+        },
+        getItems: function getItems() {
+            var _this2 = this;
 
             axios.get('/get-items-list', {
                 params: {}
             }).then(function (response) {
                 console.log(response.data.length);
-                _this.items_data = response.data;
+                _this2.items_data = response.data;
             }).catch(function (error) {
-                _this.$message.error('Cannot get items');
+                _this2.$message.error('Cannot get items');
             });
         },
         getAccounts: function getAccounts() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/get-accounts-list', {
                 params: {}
             }).then(function (response) {
                 console.log(response.data.length);
-                _this2.accounts_data = response.data;
+                _this3.accounts_data = response.data;
             }).catch(function (error) {
-                _this2.$message.error('Cannot get accounts');
+                _this3.$message.error('Cannot get accounts');
             });
         },
         getOperations: function getOperations() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/get-operations-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
                 if (response.data.length > 0) {
-                    _this3.operations_exists = true;
-                    _this3.operations_data = response.data;
+                    _this4.operations_exists = true;
+                    _this4.operations_data = response.data;
+                } else {
+                    _this4.operations_exists = false;
                 }
             }).catch(function (error) {
-                _this3.$message.error('Cannot get operations');
+                _this4.$message.error('Cannot get operations');
             });
         },
         saveOperations: function saveOperations() {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get('/save-operation', {
                 params: {
                     items_id: this.items_model,
                     amount: this.amount_model,
-                    comment: this.comment_model
+                    comment: this.comment_model,
+                    accounts_id: this.accounts_model
                 }
             }).then(function (response) {
-                _this4.$message.success('Your data is saved');
-                _this4.getOperations();
-                _this4.items_model = _this4.amount_model = _this4.comment_model = '';
+                _this5.$message.success('Your data is saved');
+                _this5.getOperations();
+                _this5.items_model = _this5.amount_model = _this5.comment_model = '';
             }).catch(function (error) {
-                _this4.$message.error('Oops, this is a error message.');
+                _this5.$message.error('Oops, this is a error message.');
             });
         }
     }
@@ -91453,6 +91482,39 @@ var render = function() {
                       _vm._v(" "),
                       _c("el-table-column", {
                         attrs: { prop: "created_at", label: "Created" }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: { label: "Action" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "el-button",
+                                  {
+                                    attrs: { type: "danger", plain: "" },
+                                    nativeOn: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.deleteOperation(
+                                          scope.$index,
+                                          _vm.operations_data
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                           Remove\n                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
                       })
                     ],
                     1
@@ -91729,6 +91791,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -91739,7 +91806,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             accounts_data: [{
                 comment: '',
-                name: ''
+                name: '',
+                id: ''
             }],
             accounts_exists: false,
             defaultData: {},
@@ -91754,23 +91822,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        getAccounts: function getAccounts() {
+        deleteAccount: function deleteAccount(index, rows) {
             var _this = this;
+
+            console.log(index, rows[0]);
+            var id = rows[0]['id'];
+            axios.get('/delete-account', {
+                params: { id: id }
+            }).then(function (response) {
+
+                if (response.data) {
+                    console.log(response.data);
+                    _this.$message.success('You have succesfully removed an account');
+                    _this.getAccounts();
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot delete an account');
+            });
+        },
+        getAccounts: function getAccounts() {
+            var _this2 = this;
 
             axios.get('/get-accounts-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
                 if (response.data.length > 0) {
-                    _this.accounts_exists = true;
-                    _this.accounts_data = response.data;
+                    _this2.accounts_exists = true;
+                    _this2.accounts_data = response.data;
+                } else {
+                    _this2.accounts_exists = false;
                 }
             }).catch(function (error) {
-                _this.$message.error('Cannot get accounts');
+                _this2.$message.error('Cannot get accounts');
             });
         },
         saveAccounts: function saveAccounts() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/save-account', {
                 params: {
@@ -91778,11 +91866,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     comment: this.comment_model
                 }
             }).then(function (response) {
-                _this2.$message.success('Your data is saved');
-                _this2.getAccounts();
+                _this3.$message.success('Your data is saved');
+                _this3.getAccounts();
                 //   this.items_model = this.amount_model = this.comment_model = '';
             }).catch(function (error) {
-                _this2.$message.error('Oops, this is a error message.');
+                _this3.$message.error('Oops, this is a error message.');
             });
         }
     }
@@ -91824,6 +91912,39 @@ var render = function() {
                           label: "Comment",
                           width: "280"
                         }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: { label: "Action" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "el-button",
+                                  {
+                                    attrs: { type: "danger", plain: "" },
+                                    nativeOn: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.deleteAccount(
+                                          scope.$index,
+                                          _vm.accounts_data
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                           Remove\n                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
                       })
                     ],
                     1
@@ -92043,6 +92164,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -92053,6 +92181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             items_data: [{
+                id: '',
                 name: '',
                 groups_id: '',
                 type: '',
@@ -92080,35 +92209,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        getGroups: function getGroups() {
+        deleteItem: function deleteItem(index, rows) {
             var _this = this;
+
+            console.log(index, rows[0]);
+            var id = rows[0]['id'];
+            axios.get('/delete-item', {
+                params: { id: id }
+            }).then(function (response) {
+
+                if (response.data) {
+                    console.log(response.data);
+                    _this.$message.success('You have succesfully removed an item');
+                    _this.getItems();
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot delete an items');
+            });
+        },
+        getGroups: function getGroups() {
+            var _this2 = this;
 
             axios.get('/get-groups-list', {
                 params: {}
             }).then(function (response) {
                 console.log(response.data.length);
-                _this.groups_data = response.data;
+                _this2.groups_data = response.data;
             }).catch(function (error) {
-                _this.$message.error('Cannot get groups');
+                _this2.$message.error('Cannot get groups');
             });
         },
         getItems: function getItems() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/get-items-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
                 if (response.data.length > 0) {
-                    _this2.items_exists = true;
-                    _this2.items_data = response.data;
+                    _this3.items_exists = true;
+                    _this3.items_data = response.data;
+                } else {
+                    _this3.items_exists = false;
                 }
             }).catch(function (error) {
-                _this2.$message.error('Cannot get items');
+                _this3.$message.error('Cannot get items');
             });
         },
         saveItems: function saveItems() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get('/save-item', {
                 params: {
@@ -92118,11 +92267,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     comment: this.comment_model
                 }
             }).then(function (response) {
-                _this3.$message.success('Your data is saved');
-                _this3.getItems();
-                _this3.items_model = _this3.name_model = _this3.comment_model = '';
+                _this4.$message.success('Your data is saved');
+                _this4.getItems();
+                _this4.items_model = _this4.name_model = _this4.comment_model = '';
             }).catch(function (error) {
-                _this3.$message.error('Oops, this is a error message.');
+                _this4.$message.error('Oops, this is a error message.');
             });
         }
     }
@@ -92176,6 +92325,39 @@ var render = function() {
                           label: "Comment",
                           width: "280"
                         }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: { label: "Action" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "el-button",
+                                  {
+                                    attrs: { type: "danger", plain: "" },
+                                    nativeOn: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.deleteItem(
+                                          scope.$index,
+                                          _vm.items_data
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                           Remove\n                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
                       })
                     ],
                     1
@@ -92458,6 +92640,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -92467,6 +92654,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             groups_data: [{
+                id: '',
                 comment: '',
                 name: ''
             }],
@@ -92483,23 +92671,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        getGroups: function getGroups() {
+        deleteGroup: function deleteGroup(index, rows) {
             var _this = this;
+
+            console.log(index, rows[0]);
+            var id = rows[0]['id'];
+            axios.get('/delete-group', {
+                params: { id: id }
+            }).then(function (response) {
+
+                if (response.data) {
+                    console.log(response.data);
+                    _this.$message.success('You have succesfully removed a group');
+                    _this.getGroups();
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot delete a group');
+            });
+        },
+        getGroups: function getGroups() {
+            var _this2 = this;
 
             axios.get('/get-groups-data', {
                 params: {}
             }).then(function (response) {
                 //  console.log(response.data);
                 if (response.data.length > 0) {
-                    _this.groups_exists = true;
-                    _this.groups_data = response.data;
+                    _this2.groups_exists = true;
+                    _this2.groups_data = response.data;
+                } else {
+                    _this2.groups_exists = false;
                 }
             }).catch(function (error) {
-                _this.$message.error('Cannot get groups');
+                _this2.$message.error('Cannot get groups');
             });
         },
         saveGroups: function saveGroups() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/save-group', {
                 params: {
@@ -92507,11 +92715,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     comment: this.comment_model
                 }
             }).then(function (response) {
-                _this2.$message.success('Your data is saved');
-                _this2.getGroups();
-                _this2.amount_model = _this2.comment_model = '';
+                _this3.$message.success('Your data is saved');
+                _this3.getGroups();
+                _this3.amount_model = _this3.comment_model = '';
             }).catch(function (error) {
-                _this2.$message.error('Oops, this is a error message.');
+                _this3.$message.error('Oops, this is a error message.');
             });
         }
     }
@@ -92553,6 +92761,39 @@ var render = function() {
                           label: "Comment",
                           width: "280"
                         }
+                      }),
+                      _vm._v(" "),
+                      _c("el-table-column", {
+                        attrs: { label: "Action" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "el-button",
+                                  {
+                                    attrs: { type: "danger", plain: "" },
+                                    nativeOn: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.deleteGroup(
+                                          scope.$index,
+                                          _vm.groups_data
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                           Remove\n                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
                       })
                     ],
                     1
