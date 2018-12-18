@@ -11,7 +11,7 @@
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                   
                   </el-table>
-                  <div class="" v-if="!groups_exists">There is still no data there</div>
+                  <div class="" v-if="!groups_exists">There is still no data here</div>
                   <h2 class="mt-3">New group</h2>
                   <el-table :data="newData" style="width: 100%">
                      <el-table-column prop="name" label="Name" width="120">
@@ -90,7 +90,7 @@
                     .then((response) => {
                         this.$message.success('Your data is saved');
                         this.getGroups();
-                        //   this.items_model = this.amount_model = this.comment_model = '';
+                           this.amount_model = this.comment_model = '';
                     })
                     .catch((error) => {
                         this.$message.error('Oops, this is a error message.');

@@ -78,7 +78,7 @@
    {
       return json_encode(Items ::select([
             'name',
-            'accounts_id',
+            'groups_id',
             'type',
             'comment',]) -> get());
    });

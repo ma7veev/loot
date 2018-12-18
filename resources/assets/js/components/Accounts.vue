@@ -11,7 +11,7 @@
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                      
                   </el-table>
-                  <div class="" v-if="!accounts_exists">There is still no data there</div>
+                  <div class="" v-if="!accounts_exists">There is still no data here</div>
                   <h2 class="mt-3">New account</h2>
                   <el-table :data="newData" style="width: 100%">
                      <el-table-column prop="name" label="Name" width="120">

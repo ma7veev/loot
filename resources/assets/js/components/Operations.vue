@@ -12,7 +12,7 @@
                      <el-table-column prop="comment" label="Comment" width="280"></el-table-column>
                      <el-table-column prop="created_at" label="Created"></el-table-column>
                   </el-table>
-                  <div class="" v-if="!operations_exists">There is still no data there</div>
+                  <div class="" v-if="!operations_exists">There is still no data here</div>
                   <h2 class="mt-3">New operation</h2>
                   <el-table :data="newData" style="width: 100%">
                      <el-table-column prop="items_id" label="Item" width="180">
