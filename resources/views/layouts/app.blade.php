@@ -27,26 +27,25 @@
          <div class="sidebar-sticky">
             <ul class="nav flex-column">
                <li class="nav-item">
-                  <a class="nav-link active" href="/operations">
+                  <a class="nav-link {{Route ::currentRouteName()=='operations'?'active':''}}" href="/operations">
                      <span data-feather="home"></span>
                      Operations
-                     <span class="sr-only">(current)</span>
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="/items">
+                  <a class="nav-link {{Route ::currentRouteName()=='items'?'active':''}}" href="/items">
                      <span data-feather="shopping-cart"></span>
                      Items
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="/groups">
+                  <a class="nav-link {{Route ::currentRouteName()=='groups'?'active':''}}" href="/groups">
                      <span data-feather="users"></span>
                      Items` groups
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="/accounts">
+                  <a class="nav-link {{Route ::currentRouteName()=='accounts'?'active':''}}" href="/accounts">
                      <span data-feather="file"></span>
                      Accounts
                   </a>
@@ -72,9 +71,9 @@
             </h6>
             <ul class="nav flex-column mb-2">
                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/accounts-balance">
                      <span data-feather="file-text"></span>
-                     Current month
+                     Accounts` balance
                   </a>
                </li>
                <li class="nav-item">

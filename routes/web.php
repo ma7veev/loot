@@ -23,19 +23,32 @@
    Route ::get('/operations', function()
    {
       return view('operations');
-   });
+   }) -> name('operations');
    Route ::get('/accounts', function()
    {
       return view('accounts');
-   });
+   }) -> name('accounts');
    Route ::get('/items', function()
    {
       return view('items');
-   });
+   }) -> name('items');
    Route ::get('/groups', function()
    {
       return view('groups');
-   });
+   }) -> name('groups');
+   
+   Route ::get('/accounts-balance', function()
+   {
+      return view('accounts-balance');
+   }) -> name('accounts-balance');
+   
+   Route ::get('/test0', 'TestController@test0');
+   /**/
+   /**/
+   /**/
+   /**/
+   /**/
+   /**/
    /*GET DATA METHODS*/
    Route ::get('/get-accounts-list', function()
    {
@@ -90,8 +103,11 @@
    /*SAVE DATA METHODS*/
    Route ::get('/save-operation', function(Request $request)
    {
-      Operations ::firstOrCreate($request -> toArray());
+   
+   
    });
+   
+   Route ::get('/save-operation', 'OperationsController@save');
    Route ::get('/save-account', function(Request $request)
    {
       Accounts ::firstOrCreate($request -> toArray());

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Accounts extends Migration
+class AccountsBalance extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class Accounts extends Migration
      */
     public function up()
     {
-       if (!Schema ::hasTable('accounts'))
+       if ( !Schema ::hasTable('accounts_balance'))
        {
           //
-          Schema ::create('accounts', function(Blueprint $table)
+          Schema ::create('accounts_balance', function(Blueprint $table)
           {
              $table -> increments('id');
-             $table -> string('name');
-             $table -> integer('initial')->default(0);
-             $table -> longText('comment')->nullable();
-            // $table -> longText('amount');
+             $table -> integer('accounts_id')->unique();
+             $table -> integer('operations_id');
+             $table -> integer('value');
              $table -> timestamps();
           });
        }
@@ -35,6 +34,6 @@ class Accounts extends Migration
      */
     public function down()
     {
-       Schema::dropIfExists('accounts');
+       Schema::dropIfExists('accounts_balance');
     }
 }

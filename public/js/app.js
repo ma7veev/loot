@@ -91796,6 +91796,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -91816,7 +91821,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: ''
             }],
             name_model: '',
-            comment_model: ''
+            comment_model: '',
+            initial_model: ''
 
         };
     },
@@ -91863,7 +91869,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/save-account', {
                 params: {
                     name: this.name_model,
-                    comment: this.comment_model
+                    comment: this.comment_model,
+                    initial: this.initial_model
                 }
             }).then(function (response) {
                 _this3.$message.success('Your data is saved');
@@ -91982,6 +91989,37 @@ var render = function() {
                                   _vm.name_model = $$v
                                 },
                                 expression: "name_model"
+                              }
+                            })
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      prop: "initial",
+                      label: "Initial balance",
+                      width: "280"
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c("el-input", {
+                              attrs: {
+                                placeholder: "Enter value",
+                                type: "number",
+                                value: "0"
+                              },
+                              model: {
+                                value: _vm.initial_model,
+                                callback: function($$v) {
+                                  _vm.initial_model = $$v
+                                },
+                                expression: "initial_model"
                               }
                             })
                           ]

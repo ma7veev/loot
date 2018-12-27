@@ -24,6 +24,11 @@
                            <el-input placeholder="Enter new name" v-model="name_model" type="string"></el-input>
                         </template>
                      </el-table-column>
+                     <el-table-column prop="initial" label="Initial balance" width="280">
+                        <template slot-scope="scope">
+                           <el-input placeholder="Enter value" v-model="initial_model"  type="number" value="0"></el-input>
+                        </template>
+                     </el-table-column>
                      <el-table-column prop="comment" label="Comment" width="280">
                         <template slot-scope="scope">
                            <el-input type="textarea" :rows="2" placeholder="Description" v-model="comment_model"></el-input>
@@ -64,7 +69,8 @@
                     name: ''
                 }],
                 name_model: '',
-                comment_model: ''
+                comment_model: '',
+                initial_model:''
 
             }
         },
@@ -114,7 +120,8 @@
                 axios.get('/save-account', {
                     params: {
                         name: this.name_model,
-                        comment: this.comment_model
+                        comment: this.comment_model,
+                        initial: this.initial_model
                     }
                 })
                     .then((response) => {

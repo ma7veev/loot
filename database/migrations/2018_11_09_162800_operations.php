@@ -24,6 +24,7 @@
                $table -> integer('accounts_id');
                $table -> longText('comment')->nullable();
                $table -> integer('amount')->default(0);
+               $table -> integer('balance');
                $table -> timestamps();
             });
          }

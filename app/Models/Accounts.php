@@ -8,4 +8,10 @@ class Accounts extends Model
 {
    protected $table = 'accounts';
    protected $guarded = [];
+   
+   public
+   function operations()
+   {
+      return $this -> hasMany('App\Models\Operations', 'accounts_id', 'id');
+   }
 }
