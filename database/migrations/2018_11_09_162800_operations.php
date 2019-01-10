@@ -25,6 +25,7 @@
                $table -> longText('comment')->nullable();
                $table -> integer('amount')->default(0);
                $table -> integer('balance');
+               $table -> boolean('deleted')->default(0);
                $table -> timestamps();
             });
          }

@@ -77,7 +77,7 @@
         methods: {
             deleteAccount(index, rows) {
                 console.log(index, rows[0]);
-                let id = rows[0]['id'];
+                let id = rows[index]['id'];
                 axios.get('/delete-account', {
                     params: {id: id}
                 })

@@ -91354,7 +91354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             console.log(index, rows[0]);
-            var id = rows[0]['id'];
+            var id = rows[index]['id'];
             axios.get('/delete-operation', {
                 params: { id: id }
             }).then(function (response) {
@@ -91832,7 +91832,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             console.log(index, rows[0]);
-            var id = rows[0]['id'];
+            var id = rows[index]['id'];
             axios.get('/delete-account', {
                 params: { id: id }
             }).then(function (response) {
@@ -92251,7 +92251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             console.log(index, rows[0]);
-            var id = rows[0]['id'];
+            var id = rows[index]['id'];
             axios.get('/delete-item', {
                 params: { id: id }
             }).then(function (response) {
@@ -92712,8 +92712,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteGroup: function deleteGroup(index, rows) {
             var _this = this;
 
-            console.log(index, rows[0]);
-            var id = rows[0]['id'];
+            console.log(index, rows);
+
+            var id = rows[index]['id'];
             axios.get('/delete-group', {
                 params: { id: id }
             }).then(function (response) {

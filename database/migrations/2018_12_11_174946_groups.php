@@ -22,6 +22,7 @@
                $table -> increments('id');
                $table -> string('name');
                $table -> longText('comment') -> nullable();
+               $table -> boolean('deleted')->default(0);
                $table -> timestamps();
             });
          }

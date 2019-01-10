@@ -100,7 +100,7 @@
         methods: {
             deleteItem(index, rows) {
                 console.log(index, rows[0]);
-                let id = rows[0]['id'];
+                let id = rows[index]['id'];
                 axios.get('/delete-item', {
                     params: {id: id}
                 })

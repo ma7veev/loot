@@ -23,6 +23,7 @@
                $table -> integer('groups_id');
                $table -> boolean('type');
                $table -> longText('comment')->nullable();
+               $table -> boolean('deleted')->default(0);
                $table -> timestamps();
             });
          }

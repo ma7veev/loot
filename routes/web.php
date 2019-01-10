@@ -36,12 +36,10 @@
    {
       return view('groups');
    }) -> name('groups');
-   
    Route ::get('/accounts-balance', function()
    {
       return view('accounts-balance');
    }) -> name('accounts-balance');
-   
    Route ::get('/test0', 'TestController@test0');
    /**/
    /**/
@@ -54,19 +52,19 @@
    {
       return json_encode(Accounts ::select([
             'name',
-            'id']) -> get());
+            'id']) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-groups-list', function()
    {
       return json_encode(Groups ::select([
             'name',
-            'id']) -> get());
+            'id']) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-items-list', function()
    {
       return json_encode(Items ::select([
             'name',
-            'id']) -> get());
+            'id']) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-operations-data', function(Request $request)
    {
@@ -75,14 +73,14 @@
             'items_id',
             'comment',
             'amount',
-            'created_at']) -> get());
+            'created_at']) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-accounts-data', function(Request $request)
    {
       return json_encode(Accounts ::select([
             'id',
             'name',
-            'comment',]) -> get());
+            'comment',]) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-items-data', function(Request $request)
    {
@@ -91,22 +89,19 @@
             'name',
             'groups_id',
             'type',
-            'comment',]) -> get());
+            'comment',]) -> where('deleted', 0) -> get());
    });
    Route ::get('/get-groups-data', function(Request $request)
    {
       return json_encode(Groups ::select([
             'id',
             'name',
-            'comment',]) -> get());
+            'comment',]) -> where('deleted', 0) -> get());
    });
    /*SAVE DATA METHODS*/
    Route ::get('/save-operation', function(Request $request)
    {
-   
-   
    });
-   
    Route ::get('/save-operation', 'OperationsController@save');
    Route ::get('/save-account', function(Request $request)
    {
@@ -124,8 +119,8 @@
    /*SAVE DATA METHODS*/
    Route ::get('/delete-operation', function(Request $request)
    {
-      Operations ::where('id', $request -> id) -> delete();
-      if (is_null(Operations ::find($request -> id)))
+      Operations ::where('id', $request -> id) -> update(['deleted' => 1]);
+      if (Operations ::find($request -> id) -> deleted)
       {
          return 1;
       }
@@ -133,24 +128,24 @@
    Route ::get('/delete-account', function(Request $request)
    {
       // dd($request -> id);
-      Accounts ::where('id', $request -> id) -> delete();
-      if (is_null(Accounts ::find($request -> id)))
+      Accounts ::where('id', $request -> id) -> update(['deleted' => 1]);
+      if (Accounts ::find($request -> id) -> deleted)
       {
          return 1;
       }
    });
    Route ::get('/delete-item', function(Request $request)
    {
-      Items ::where('id', $request -> id) -> delete();
-      if (is_null(Items ::find($request -> id)))
+      Items ::where('id', $request -> id) -> update(['deleted' => 1]);
+      if (Items ::find($request -> id) -> deleted)
       {
          return 1;
       }
    });
    Route ::get('/delete-group', function(Request $request)
    {
-      Groups ::where('id', $request -> id) -> delete();
-      if (is_null(Groups ::find($request -> id)))
+      Groups ::where('id', $request -> id) -> update(['deleted' => 1]);
+      if (Groups ::find($request -> id) -> deleted)
       {
          return 1;
       }

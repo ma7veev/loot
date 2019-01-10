@@ -22,6 +22,7 @@ class Accounts extends Migration
              $table -> string('name');
              $table -> integer('initial')->default(0);
              $table -> longText('comment')->nullable();
+             $table -> boolean('deleted')->default(0);
             // $table -> longText('amount');
              $table -> timestamps();
           });
