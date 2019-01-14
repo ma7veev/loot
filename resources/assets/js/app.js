@@ -22,6 +22,7 @@ Vue.component('operations', require('./components/Operations.vue'));
 Vue.component('accounts', require('./components/Accounts.vue'));
 Vue.component('items', require('./components/Items.vue'));
 Vue.component('groups', require('./components/Groups.vue'));
+Vue.component('accounts-balance', require('./components/AccountsBalance.vue'));
 /**/
 const app = new Vue({
     el: '#app'

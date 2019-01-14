@@ -98,6 +98,9 @@
             'name',
             'comment',]) -> where('deleted', 0) -> get());
    });
+   
+  
+   Route ::get('/get-accounts-balance-data', 'AccountsBalanceController@listing');
    /*SAVE DATA METHODS*/
    Route ::get('/save-operation', function(Request $request)
    {

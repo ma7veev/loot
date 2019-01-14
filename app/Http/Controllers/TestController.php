@@ -11,6 +11,6 @@
       public static
       function test0()
       {
-         return [Accounts ::find(2)->operations->last()->balance];
+         return AccountsBalanceController::calculate(3);
       }
    }

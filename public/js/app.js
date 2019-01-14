@@ -15943,6 +15943,7 @@ Vue.component('operations', __webpack_require__(195));
 Vue.component('accounts', __webpack_require__(198));
 Vue.component('items', __webpack_require__(201));
 Vue.component('groups', __webpack_require__(204));
+Vue.component('accounts-balance', __webpack_require__(209));
 /**/
 var app = new Vue({
   el: '#app'
@@ -92951,6 +92952,163 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 208 */,
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(18)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AccountsBalance.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-befb67a2", Component.options)
+  } else {
+    hotAPI.reload("data-v-befb67a2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: [],
+    mounted: function mounted() {
+        this.getAccountsBalance();
+    },
+    data: function data() {
+        return {
+            accounts_balance_data: [{
+                result: '',
+                id: ''
+            }],
+            accounts_balance_exists: false
+        };
+    },
+
+    methods: {
+        getAccountsBalance: function getAccountsBalance() {
+            var _this = this;
+
+            axios.get('/get-accounts-balance-data', {
+                params: {}
+            }).then(function (response) {
+                //  console.log(response.data);
+                if (response.data.length > 0) {
+                    _this.accounts_balance_exists = true;
+                    _this.accounts_balance_data = response.data;
+                } else {
+                    _this.accounts_balance_exists = false;
+                }
+            }).catch(function (error) {
+                _this.$message.error('Cannot get accounts balance');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-12" },
+        [
+          !_vm.accounts_balance_exists
+            ? _c("div", {}, [_vm._v("There is still no data here")])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.accounts_balance_exists
+            ? _c(
+                "el-table",
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { data: _vm.accounts_balance_data }
+                },
+                [
+                  _c("el-table-column", {
+                    attrs: { prop: "name", label: "Name", width: "180" }
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: { prop: "result", label: "Result", width: "280" }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-befb67a2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
